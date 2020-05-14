@@ -19,6 +19,31 @@
 	</properties>
 
 	<dependencies>
+
+		<!-- Lombok Start -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Lombok Start -->
+
+		<!-- Hibernate / Spring JPA Dependencies Start -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework</groupId>-->
+<!--			<artifactId>spring-jpa</artifactId>-->
+<!--			<version>2.0.8</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
+
+		<!-- Hibernate / Spring JPA Dependencies End -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
