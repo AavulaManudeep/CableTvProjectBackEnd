@@ -1,5 +1,6 @@
 package com.cabletvbackend.controller;
 
+import com.cabletvbackend.password.PasswordUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,19 +17,30 @@ import java.util.logging.Logger;
 @RequestMapping("/controller")
 public class Controller {
     public static final Logger logger = Logger.getLogger(Controller.class.getName());
-    @PostMapping(value = "/test",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+    PasswordUtils passwordUtils = new PasswordUtils();
+    @PostMapping(value = "/login",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> test(@RequestBody Map<String,String> userdetails)
     {
         if(userdetails.get("username").equalsIgnoreCase("Manu") && userdetails.get("passcode").equalsIgnoreCase("1234")) {
             logger.log(Level.ALL,"ValidNames");
             logger.info("ValidNames");
-            return new ResponseEntity<>("Sucess", HttpStatus.OK);
+            String password = userdetails.get("passcode");
+            Optional<String> salt = passwordUtils.generateSalt(password.length());
+            Optional<String> hashpassword = passwordUtils.generateHashPassword(password,salt.get());
+            if(hashpassword.isPresent())
+            {
+                if(!passwordUtils.verifypassword(password,hashpassword.get(),salt.get()))
+                {
+                    return new ResponseEntity<>("Invalid user name or password", HttpStatus.UNAUTHORIZED);
+                }
+                return new ResponseEntity<>("Success", HttpStatus.OK);
+            }
         }
         else {
             logger.log(Level.ALL,"InvalidNames");
             logger.info("InvalidNames");
-            return new ResponseEntity<>("Invalid user name or password", HttpStatus.UNAUTHORIZED);
         }
+        return new ResponseEntity<>("Invalid user name or password", HttpStatus.UNAUTHORIZED);
     }
     @PostMapping(value = "/registartion",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registartion(@RequestBody Map<String,String> userDetails)
