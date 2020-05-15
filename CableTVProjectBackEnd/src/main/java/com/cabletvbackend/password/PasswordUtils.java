@@ -1,6 +1,7 @@
 package com.cabletvbackend.password;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -13,7 +14,7 @@ import java.util.Base64;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@Data
+@Component
 public class PasswordUtils {
 
     public static final Logger logger  = Logger.getLogger(PasswordUtils.class.getName());
@@ -41,7 +42,6 @@ public class PasswordUtils {
 
     public Optional<String> generateHashPassword(String password, String salt)
     {
-
         char[] charbytes_pass = password.toCharArray();
         byte [] bytes_salt = salt.getBytes();
 
