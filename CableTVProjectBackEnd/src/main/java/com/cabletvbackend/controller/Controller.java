@@ -22,7 +22,6 @@ public class Controller {
     @Autowired
     UserDetailServiceImpl userDetailServiceImpl;
 
-
     public static final Logger logger = Logger.getLogger(Controller.class.getName());
     PasswordUtils passwordUtils = new PasswordUtils();
     @PostMapping(value = "/login",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
