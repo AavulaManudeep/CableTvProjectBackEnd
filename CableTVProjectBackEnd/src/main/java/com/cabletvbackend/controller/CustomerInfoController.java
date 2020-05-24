@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins= "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/customerinfo")
 public class CustomerInfoController {
@@ -20,13 +18,13 @@ public class CustomerInfoController {
     @Autowired
     UserPlanInfoServiceImpl userPlanInfoServiceImpl;
 
-    @PostMapping("/retrieveall")
+    @GetMapping("/retrieveall")
     public ResponseEntity<List<UserPlanInfo>> getAllCustomerInfo()
     {
         List<UserPlanInfo> userPlanInfos = userPlanInfoServiceImpl.getAllCustomersPlanInfo();
         return new ResponseEntity<List<UserPlanInfo>>(userPlanInfos,HttpStatus.OK);
     }
-    @PostMapping(value = "/retrieve/customerinfo" ,consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/retrieve/userplandetais" ,consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserPlanInfo> getCustomerInfo(@RequestBody String id)
     {
         if(id==null || id.isEmpty())
