@@ -1,6 +1,8 @@
 package com.cabletvbackend.password;
 
 import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,12 +14,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Component
 public class PasswordUtils {
 
-    public static final Logger logger  = Logger.getLogger(PasswordUtils.class.getName());
+    private static final Logger logger = LogManager.getLogger("PasswordUtils");
     private static final SecureRandom RAND = new SecureRandom();
     private static final int ITERATIONS = 1000;
     private static final int KEY_LENGTH = 512;
@@ -27,12 +28,11 @@ public class PasswordUtils {
     {
 
     }
-
     public Optional<String> generateSalt(final int length)
     {
         if(length<1)
         {
-            logger.severe("Error in generating Salt, since the length is less than 1");
+            logger.fatal("Error in generating Salt, since the length is less than 1");
             Optional.empty();
         }
         byte[] salt = new byte[length];
@@ -55,7 +55,7 @@ public class PasswordUtils {
         }
         catch (NoSuchAlgorithmException | InvalidKeySpecException ex)
         {
-            logger.severe("Error in generating HashPassword");
+            logger.fatal("Error in generating HashPassword");
             return Optional.empty();
         }
         finally {

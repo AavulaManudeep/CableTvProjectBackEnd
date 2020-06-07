@@ -2,6 +2,8 @@ package com.cabletvbackend.serviceImpl;
 
 import com.cabletvbackend.dao.UserPlanInfo;
 import com.cabletvbackend.repository.UserPlanInfoService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -10,13 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED)
 @Service
 public class UserPlanInfoServiceImpl {
 
-    public static final  Logger logger =  Logger.getLogger(UserPlanInfoServiceImpl.class.getName());
+    private static final Logger logger = LogManager.getLogger(UserPlanInfoServiceImpl.class.getName());
 
     @Autowired
     UserPlanInfoService userPlanInfoService;
@@ -29,7 +30,7 @@ public class UserPlanInfoServiceImpl {
         }
         catch (Exception ex)
         {
-            logger.severe("Exception occurred while retrieving all the customer plan info "+ex);
+            logger.fatal("Exception occurred while retrieving all the customer plan info "+ex);
         }
         return null;
     }
@@ -46,7 +47,7 @@ public class UserPlanInfoServiceImpl {
         }
         catch (Exception ex)
         {
-            logger.severe("Exception occurred while retrieving customer plan info "+ex);
+            logger.fatal("Exception occurred while retrieving customer plan info "+ex);
         }
         return null;
     }
@@ -62,7 +63,7 @@ public class UserPlanInfoServiceImpl {
         }
         catch (Exception ex)
         {
-            logger.severe("Exception occurred while inserting customer plan info into the database" +ex);
+            logger.fatal("Exception occurred while inserting customer plan info into the database" +ex);
         }
         return "Error occurred";
     }
