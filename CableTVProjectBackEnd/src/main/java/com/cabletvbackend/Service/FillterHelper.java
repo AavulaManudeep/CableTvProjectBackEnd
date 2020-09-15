@@ -5,6 +5,7 @@ import com.cabletvbackend.constants.CableTVConstants;
 import com.cabletvbackend.dao.Userdetails;
 import com.cabletvbackend.password.PasswordUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class FillterHelper {
     @Autowired
     PasswordUtils passwordUtils;
 
-    @Autowired
-    AuthProvider authentication;
+//    @Autowired
+//    AuthProvider authentication;
 
     @Autowired
     SecurityUserDetailService securityUserDetailService;
@@ -46,24 +47,35 @@ public class FillterHelper {
 //        this.authentication = new AuthProvider(this.securityUserDetailService);
 //    }
 
-    @SneakyThrows
-    public Authentication extractAuth(HttpServletRequest request)
+//    @SneakyThrows
+//    public Authentication extractAuth(HttpServletRequest request)
+//    {
+//        String str = CharStreams.toString(request.getReader());
+//        Userdetails userdetails = new ObjectMapper().readValue(str,Userdetails.class);
+//        String username = userdetails.getUsername();
+//        String pass = "";
+//        Optional<String> password = passwordUtils.generateHashPassword(userdetails.getPassword(), CableTVConstants.SALT);
+//        if(password.isPresent())
+//            pass =password.get();
+//        UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(username, password);
+//        if(authentication.authenticate(userToken))
+//            return authentication;
+//        return new AuthProvider(this.securityUserDetailService);
+//    }
+
+    public String getToken(String username, List<String> roles)
     {
-        String str = CharStreams.toString(request.getReader());
-        Userdetails userdetails = new ObjectMapper().readValue(str,Userdetails.class);
-        String username = userdetails.getUsername();
-        String pass = "";
-        Optional<String> password = passwordUtils.generateHashPassword(userdetails.getPassword(), CableTVConstants.SALT);
-        if(password.isPresent())
-            pass =password.get();
-        UsernamePasswordAuthenticationToken userToken = new UsernamePasswordAuthenticationToken(username, password);
-        if(authentication.authenticate(userToken))
-            return authentication;
-        return new AuthProvider(this.securityUserDetailService);
+        if(Strings.isNullOrEmpty(username))
+            return null;
+        return jwtUtill.generateToken(username,roles);
     }
 
-    public String getToken(String token, List<String> roles)
+    public boolean ValidateToken(String token,String userName)
     {
-        return jwtUtill.generateToken(token,roles);
+        return jwtUtill.getUserName(token).equals(userName) && !jwtUtill.isTokenValid(token);
+    }
+    public String getUsername(String token)
+    {
+        return jwtUtill.getUserName(token);
     }
 }

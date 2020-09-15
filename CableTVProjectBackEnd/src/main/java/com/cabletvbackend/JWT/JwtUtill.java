@@ -42,7 +42,7 @@ public class JwtUtill implements Serializable {
 
     public Claims getAllClaims(String token)
     {
-        return Jwts.parser().setSigningKey(JwtConstants.TOKEN_SECRET).parseClaimsJwt(token).getBody();
+        return Jwts.parser().setSigningKey(JwtConstants.TOKEN_SECRET).parseClaimsJws(token).getBody();
     }
 
     public String getUserName(String token) {
@@ -60,8 +60,4 @@ public class JwtUtill implements Serializable {
         return expiration.before(new Date());
     }
 
-    public boolean ValidateToken(String token,String userName)
-    {
-        return getUserName(token).equals(userName) && !isTokenValid(token);
-    }
 }

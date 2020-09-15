@@ -17,10 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SecurityUserDetailService implements UserDetailsService {
@@ -34,7 +31,7 @@ public class SecurityUserDetailService implements UserDetailsService {
     }
     public SecurityUserDetailService()
     {
-
+        String uuid = UUID.randomUUID().toString();
     }
 
 

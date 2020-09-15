@@ -14,7 +14,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan("com.cabletvbackend.*")
-public class CableTvProjectBackEndApplication implements CommandLineRunner {
+public class CableTvProjectBackEndApplication{
 
 	@Autowired
 	GenericWebApplicationContext context;
@@ -23,8 +23,8 @@ public class CableTvProjectBackEndApplication implements CommandLineRunner {
 	}
 
 
-	@Override
-	public void run(String... args) throws Exception {
-		context.registerBean(UserDetailService.class);
-	}
+//	@Override
+//	public void run(String... args) throws Exception {
+//		context.registerBean(UserDetailService.class);
+//	}
 }

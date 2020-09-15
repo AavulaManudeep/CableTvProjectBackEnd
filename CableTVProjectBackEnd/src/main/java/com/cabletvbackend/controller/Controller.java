@@ -1,5 +1,8 @@
 package com.cabletvbackend.controller;
 
+import com.cabletvbackend.JWT.JwtConstants;
+import com.cabletvbackend.Service.FillterHelper;
+import com.cabletvbackend.Service.SecurityUserDetails;
 import com.cabletvbackend.dao.Userdetails;
 import com.cabletvbackend.password.PasswordUtils;
 import com.cabletvbackend.repository.UserDetailService;
@@ -11,8 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins= "*",allowedHeaders = "*")
@@ -22,24 +30,36 @@ public class Controller {
     //TODO:Junit Test Cases
     @Autowired
     UserDetailServiceImpl userDetailServiceImpl;
+    @Autowired
+    FillterHelper fillterHelper;
+
     private static final Logger logger = LogManager.getLogger("Controller");
-    PasswordUtils passwordUtils = new PasswordUtils();
+    //PasswordUtils passwordUtils = new PasswordUtils();
     @PostMapping(value = "/login",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> test(@RequestBody Map<String,String> userdetails)
+    public ResponseEntity<String> test(@RequestBody SecurityUserDetails authentication)
     {
-        if(userdetails.get("username")!=null && userdetails.get("password")!=null) {
-            logger.log(Level.ALL,"ValidNames");
-            logger.info("ValidNames");
-            String password = userdetails.get("password");
-            String username = userdetails.get("username");
+        if(authentication.getUsername()!=null && authentication.getPassword()!=null) {
+            String password = authentication.getUsername();
+            String username = authentication.getPassword();
             Userdetails login_userdetails = new Userdetails();
             login_userdetails.setPassword(password);
             login_userdetails.setUsername(username);
             boolean authenticated = userDetailServiceImpl.userAuthentication(login_userdetails);
             if(authenticated)
             {
-                return new ResponseEntity<>("Success", HttpStatus.OK);
+                logger.log(Level.ALL,"ValidNames");
+                logger.info("ValidNames");
+                List<String> roles = null;
+                roles = Arrays.asList(new String[]{"USER"});
+                if(fillterHelper.getToken(username,roles)!=null) {
+                    String token = JwtConstants.TOKEN_PREFIX + fillterHelper.getToken(username, roles);
+                    return new ResponseEntity<>(token, HttpStatus.OK);
+                }
+                return new ResponseEntity<>("Internal Error",HttpStatus.INTERNAL_SERVER_ERROR);
             }
+            logger.log(Level.ALL,"InvalidNames");
+            //logger.log(Level.ALL,"I");
+            logger.info("InvalidNames");
         }
         else {
             logger.log(Level.ALL,"InvalidNames");
@@ -75,6 +95,13 @@ public class Controller {
     public String publicAccess()
     {
         return "From Public";
+    }
+
+
+    @PostMapping("/tester")
+    public String test()
+    {
+        return "Fun";
     }
 
 }

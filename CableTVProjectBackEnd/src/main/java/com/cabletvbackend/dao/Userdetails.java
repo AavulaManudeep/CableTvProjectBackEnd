@@ -7,10 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(catalog ="cabletv_userdetails")
-public class Userdetails {
+public class Userdetails implements Serializable {
 
     public Userdetails()
     {

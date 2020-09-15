@@ -9,7 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class AuthProvider implements Authentication {
@@ -21,7 +23,7 @@ public class AuthProvider implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+       return null;
     }
 
     public AuthProvider()
@@ -40,27 +42,27 @@ public class AuthProvider implements Authentication {
 
     @Override
     public Object getCredentials() {
-        return user.getCredentials();
+        return this.user.getCredentials();
     }
 
     @Override
     public Object getDetails() {
-        return user.getDetails();
+        return this.user.getDetails();
     }
 
     @Override
     public Object getPrincipal() {
-        return user.getPrincipal();
+        return this.user.getPrincipal();
     }
 
     @Override
     public boolean isAuthenticated() {
-        return user.isAuthenticated();
+        return this.user.isAuthenticated();
     }
 
     @Override
     public void setAuthenticated(boolean b) throws IllegalArgumentException {
-        user.setAuthenticated(true);
+        this.user.setAuthenticated(true);
     }
 
     @Override
