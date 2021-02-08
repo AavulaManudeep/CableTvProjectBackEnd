@@ -61,11 +61,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated();
 //        http.addFilterBefore(getJWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers("/controller/login")
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers("/controller/login","/controller/registartion",
+                "/swagger-ui.html","/swagger-resources/**","/webjars/**")
                 .permitAll().anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authenticationFilter,UsernamePasswordAuthenticationFilter.class);
+
 
     }
 

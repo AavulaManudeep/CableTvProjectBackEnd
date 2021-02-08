@@ -1,5 +1,6 @@
 package com.cabletvbackend.controller;
 
+import com.cabletvbackend.dao.UserDetailPlanVO;
 import com.cabletvbackend.dao.UserPlanInfo;
 import com.cabletvbackend.serviceImpl.UserPlanInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ public class CustomerInfoController {
     UserPlanInfoServiceImpl userPlanInfoServiceImpl;
 
     @GetMapping("/retrieveall")
-    public ResponseEntity<List<UserPlanInfo>> getAllCustomerInfo()
+    public ResponseEntity<List<UserDetailPlanVO>> getAllCustomerInfo()
     {
-        List<UserPlanInfo> userPlanInfos = userPlanInfoServiceImpl.getAllCustomersPlanInfo();
-        return new ResponseEntity<List<UserPlanInfo>>(userPlanInfos,HttpStatus.OK);
+        List<UserDetailPlanVO> userDetailPlanVO = userPlanInfoServiceImpl.getAllCustomersPlanInfo();
+        return new ResponseEntity<List<UserDetailPlanVO>>(userDetailPlanVO,HttpStatus.OK);
     }
     @PostMapping(value = "/retrieve/userplandetais" ,consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserPlanInfo> getCustomerInfo(@RequestBody String id)
