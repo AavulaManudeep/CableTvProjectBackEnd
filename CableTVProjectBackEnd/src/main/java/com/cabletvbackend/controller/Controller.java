@@ -7,6 +7,7 @@ import com.cabletvbackend.dao.Userdetails;
 import com.cabletvbackend.password.PasswordUtils;
 import com.cabletvbackend.repository.UserDetailService;
 import com.cabletvbackend.serviceImpl.UserDetailServiceImpl;
+import javassist.NotFoundException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -102,6 +103,15 @@ public class Controller {
     public String test()
     {
         return "Fun";
+    }
+
+    @PostMapping("/error")
+    public ResponseEntity<String> testingException(@RequestBody String st) throws NotFoundException {
+        if(st.equalsIgnoreCase("Throw"))
+        {
+            throw new NotFoundException("Exception Handled");
+        }
+        return new ResponseEntity<>("Not Thrown any Exception", HttpStatus.OK);
     }
 
 }

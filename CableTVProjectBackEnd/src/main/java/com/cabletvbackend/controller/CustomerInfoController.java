@@ -3,6 +3,7 @@ package com.cabletvbackend.controller;
 import com.cabletvbackend.dao.UserDetailPlanVO;
 import com.cabletvbackend.dao.UserPlanInfo;
 import com.cabletvbackend.serviceImpl.UserPlanInfoServiceImpl;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,4 +52,5 @@ public class CustomerInfoController {
         String check = userPlanInfoServiceImpl.insertCustomerInfo(userPlanInfo);
         return new ResponseEntity<String>("Success",HttpStatus.OK);
     }
+
 }
